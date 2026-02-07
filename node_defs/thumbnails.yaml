@@ -1,0 +1,26 @@
+Publisher: pupload
+Name: thumbnail
+Image: linuxserver/ffmpeg
+Tier: c-micro
+
+Inputs:
+  - Name: VideoIn
+    Type: ["video/*"]
+    Required: true
+
+Outputs:
+  - Name: ThumbnailOut
+    Type: ["image/png"]
+    Required: true
+
+Flags:
+  - Name: resolution
+    Required: true
+
+Command:
+  Name: encode
+  Exec: > 
+    -i ${VideoIn}
+    -vf thumbnail,scale=${resolution}:-1
+    -frames:v 1
+    ${ThumbnailOut}

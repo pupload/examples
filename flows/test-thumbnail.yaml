@@ -1,0 +1,29 @@
+Name: test-thumbnail
+
+Stores:
+  - Name: test-store
+    Type: s3
+
+
+DataWells:
+  - Edge: video-in
+    Store: test-store
+    Source: upload
+
+  - Edge: thumbnail-out
+    Store: test-store
+
+Nodes:
+  - ID: thumbnail-node
+    Uses: pupload/thumbnail
+    Inputs:
+      - Name: VideoIn
+        Edge: video-in
+
+    Outputs: 
+      - Name: ThumbnailOut
+        Edge: thumbnail-out
+
+    Flags:
+      - Name: resolution
+        Value: 320

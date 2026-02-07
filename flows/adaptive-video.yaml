@@ -1,0 +1,101 @@
+Name: adaptive-video
+Stores:
+  - Name: test-store
+    Type: s3
+
+
+DefaultDataWell:
+  Store: test-store
+
+DataWells: 
+  - Edge: video-in
+    Store: test-store
+    Source: upload
+
+  - Edge: video-1080
+    Store: test-store
+
+  - Edge: video-720
+    Store: test-store
+
+  - Edge: video-480
+    Store: test-store
+
+  - Edge: thumbnail
+    Store: test-store
+
+
+Nodes: 
+  - ID: encode-1080p
+    Uses: pupload/encode
+    Inputs:
+      - Name: VideoIn
+        Edge: video-in
+
+    Outputs: 
+      - Name: VideoOut
+        Edge: video-1080 
+
+    Flags:
+      - Name: codec
+        Value: libx265
+
+      - Name: crf
+        Value: 28
+      
+      - Name: resolution
+        Value: 1080 
+
+  - ID: encode-720p
+    Uses: pupload/encode
+    Inputs:
+      - Name: VideoIn
+        Edge: video-in
+
+    Outputs: 
+      - Name: VideoOut
+        Edge: video-720
+
+    Flags:
+      - Name: codec
+        Value: libx265
+
+      - Name: crf
+        Value: 28
+
+      - Name: resolution
+        Value: 720 
+
+  - ID: encode-480p
+    Uses: pupload/encode
+    Inputs:
+      - Name: VideoIn
+        Edge: video-in
+
+    Outputs: 
+      - Name: VideoOut
+        Edge: video-480
+
+    Flags:
+      - Name: codec
+        Value: libx265
+      
+      - Name: crf
+        Value: 28
+
+      - Name: resolution
+        Value: 480 
+
+  - ID: thumbnail-node
+    Uses: pupload/thumbnail
+    Inputs:
+      - Name: VideoIn
+        Edge: video-in
+
+    Outputs: 
+      - Name: ThumbnailOut
+        Edge: thumbnail
+
+    Flags:
+      - Name: resolution
+        Value: 320

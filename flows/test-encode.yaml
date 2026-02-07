@@ -1,0 +1,35 @@
+Name: test-encode
+
+Stores:
+  - Name: test-store
+    Type: s3
+
+
+DataWells:
+  - Edge: video-in
+    Store: test-store
+    Source: upload
+
+  - Edge: video-out
+    Store: test-store
+
+Nodes:
+  - ID: encode-node
+    Uses: pupload/encode
+    Inputs:
+      - Name: VideoIn
+        Edge: video-in
+
+    Outputs: 
+      - Name: VideoOut
+        Edge: video-out
+
+    Flags:
+      - Name: codec
+        Value: libx264
+
+      - Name: crf
+        Value: 28
+
+      - Name: resolution
+        Value: -2

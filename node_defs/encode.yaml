@@ -1,0 +1,35 @@
+Publisher: pupload
+Name: encode
+Image: linuxserver/ffmpeg
+Tier: c-small
+
+Inputs:
+  - Name: VideoIn
+    Type: ["video/*"]
+    Required: true
+
+Outputs:
+  - Name: VideoOut
+    Type: ["video/mp4"]
+    Required: true
+
+Flags:
+  - Name: codec
+    Required: true
+
+  - Name: crf
+    Required: true
+
+  - Name: resolution
+    Required: true
+
+Command:
+  Name: encode
+  Exec: > 
+    -i ${VideoIn}
+    -c:v ${codec}
+    -crf ${crf}
+    -c:a aac
+    -vf scale=-2:${resolution}
+    -tag:v hvc1
+    ${VideoOut}

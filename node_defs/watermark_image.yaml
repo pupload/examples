@@ -1,0 +1,34 @@
+Publisher: pupload 
+Name: watermark
+Image: minidocks/imagemagick
+Tier: c-small
+
+Inputs:
+  - Name: ImageIn 
+    Description: ""
+    Required: true
+    Type: ["image/*"]
+
+  - Name: WatermarkIn
+    Description: ""
+    Required: true
+    Type: ["image/*"]
+  
+
+Outputs:
+  - Name: ImageOut
+    Description: ""
+    Required: true
+    Type: ["image/png"]
+
+Flags:
+  - Name: watermark-width
+    Required: true
+  - Name: watermark-height
+    Required: false
+
+
+Command:
+  Name: watermark
+  Description: ""
+  Exec: composite -gravity SouthEast -geometry +10+10 ( ${WatermarkIn} -resize ${watermark-width}x${watermark-height} ) ${ImageIn} ${ImageOut}

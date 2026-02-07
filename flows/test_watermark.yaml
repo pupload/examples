@@ -1,0 +1,36 @@
+Name: test-watermark
+
+Stores:
+  - Name: test-store
+    Type: s3
+
+
+DataWells:
+  - Edge: image-in
+    Store: test-store
+    Source: upload
+
+  - Edge: watermark-in
+    Store: test-store
+    Source: upload
+
+  - Edge: image-out
+    Store: test-store
+
+Nodes:
+  - ID: watermark-node
+    Uses: pupload/watermark
+    Inputs:
+      - Name: ImageIn
+        Edge: image-in
+
+      - Name: WatermarkIn
+        Edge: watermark-in
+
+    Outputs: 
+      - Name: ImageOut
+        Edge: image-out
+
+    Flags:
+      - Name: watermark-width
+        Value: "%20"
